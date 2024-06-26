@@ -15,15 +15,15 @@ spec:
   parameters: 
     - title: Provide information for GitLab
       required:
-        - repo_owner
+        - gitlab_group
       properties:
-        repo_owner:
-          title: Repo Owner
+        gitlab_group:
+          title: GitLab Group
           type: string
-          description: Your SCM host organization/group
-          default: user1
+          description: Your GitLab group
+          default: development
           enum:
-            - user1
+            - development
         description:
           title: Description
           type: string
@@ -66,7 +66,7 @@ spec:
         allowedHosts:
           - gitlab.com
         description: ${{parameters.description}}
-        repoUrl: gitlab.com?owner=${{parameters.repo_owner}}&repo=${{parameters.namespace}}-rhoai-sklearn
+        repoUrl: gitlab-gitlab${{parameters.cluster_id}}?owner=${{parameters.gitlab_group}}&repo=${{parameters.namespace}}-rhoai-sklearn
         defaultBranch: main
         protectDefaultBranch: false
         repoVisibility: public    
@@ -85,10 +85,10 @@ spec:
         values:
           component_id: ${{parameters.namespace}}-rhoai-sklearn-dsp
           description: ${{parameters.description}}
-          destination: https://gitlab.com/${{parameters.repo_owner}}/${{parameters.namespace}}-rhoai-sklearn-gitops
-          source_repository: https://gitlab.com/${{parameters.repo_owner}}/${{parameters.namespace}}-rhoai-sklearn
+          destination: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn-gitops
+          source_repository: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn
           repository_name: ${{parameters.namespace}}-rhoai-sklearn
-          git_owner: ${{parameters.repo_owner}}
+          git_owner: ${{parameters.gitlab_group}}
           cluster: ${{parameters.cluster_id}}
           namespace: ${{parameters.namespace}}
           image_name: ${{parameters.namespace}}/rhoai-sklearn-dsp
@@ -97,7 +97,7 @@ spec:
       name: Publishing to Deployment Resource Repository
       action: publish:gitlab
       input:
-        repoUrl: gitlab.com?owner=${{parameters.repo_owner}}&repo=${{parameters.namespace}}-rhoai-sklearn-gitops
+        repoUrl: gitlab-gitlab${{parameters.cluster_id}}?owner=${{parameters.gitlab_group}}&repo=${{parameters.namespace}}-rhoai-sklearn-gitops
         title: gitops resources for ${{parameters.namespace}}-rhoai-sklearn-dsp
         description: gitops resources for ${{parameters.namespace}}-rhoai-sklearn-dsp
         sourcePath: ./tenant-gitops
@@ -111,7 +111,7 @@ spec:
         appName: ${{parameters.namespace}}-rhoai-sklearn-dsp-bootstrap
         argoInstance: argo-rhdh
         namespace: janus-argocd
-        repoUrl: https://gitlab.com/${{parameters.repo_owner}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
+        repoUrl: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
         path: 'argocd/'
   output:
     links:
