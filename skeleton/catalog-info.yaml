@@ -10,7 +10,6 @@ metadata:
     backstage.io/kubernetes-id: ${{values.component_id}}
     backstage.io/kubernetes-namespace: ${{values.namespace}}
     backstage.io/techdocs-ref: dir:.
-    github.com/project-slug: ${{values.githubOrg}}/${{values.repoName}}
     janus-idp.io/tekton-enabled: 'true'
   tags:
     - ml

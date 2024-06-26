@@ -12,45 +12,39 @@ spec:
   owner: rhdeveloper-workshop-authors
   type: service
 
-  parameters:
+  parameters: 
     - title: Provide information about the GitHub location
       required:
-        - githubOrg
+        - repo_owner
       properties:
-        githubOrg:
-          title: GitHub Organization
+        repo_owner:
+          title: Repo Owner
           type: string
-          default: stefan-bergstein
+          description: Your SCM host organization/group
+          default: user1
+          enum:
+            - user1
         description:
           title: Description
           type: string
           description: Help others understand what this component is for
-          default: RHOAI data science project with a scikit-learn regression exercise 
+          default: RHOAI data science project with a scikit-learn regression exercise
     - title: Provide information about the new component
       required:
         - cluster_id
         - namespace
-        - owner
       properties:
         cluster_id:
           title: Cluster Id
           type: string
           description: Id of the cluster
-          default: .apps.ocp5.stormshift.coe.muc.redhat.com
+          default: .apps.cluster-kpxpg.sandbox1408.opentlc.com
         namespace: 
           title: Namespace
           type: string
           description: Namespace
           default: my-dsp
-        owner:
-          title: Owner
-          type: string
-          description: Owner of the component
-          default: janus-authors
-          ui:field: EntityPicker
-          ui:options:
-            catalogFilter:
-              kind: [User]
+
   steps:
     - id: templateSource
       name: Generating the source code component
@@ -59,21 +53,20 @@ spec:
         url: ./skeleton
         targetPath: ./source
         values:
-          githubOrg: ${{parameters.githubOrg}}
           repoName: ${{parameters.namespace}}-rhoai-sklearn
-          owner: ${{parameters.owner}}
+          owner: ${{ user.entity.metadata.name }}
           cluster_id: ${{parameters.cluster_id}}
           namespace: ${{parameters.namespace}}
           component_id: ${{parameters.namespace}}-rhoai-sklearn-dsp
     - id: publishSource
       name: Publishing to Source Code Repository
-      action: publish:github
+      action: publish:gitlab
       input:
         sourcePath: ./source
         allowedHosts:
-          - github.com
+          - gitlab.com
         description: ${{parameters.description}}
-        repoUrl: github.com?owner=${{parameters.githubOrg}}&repo=${{parameters.namespace}}-rhoai-sklearn
+        repoUrl: gitlab.com?owner=${{parameters.repo_owner}}&repo=${{parameters.namespace}}-rhoai-sklearn
         defaultBranch: main
         protectDefaultBranch: false
         repoVisibility: public    
@@ -92,21 +85,19 @@ spec:
         values:
           component_id: ${{parameters.namespace}}-rhoai-sklearn-dsp
           description: ${{parameters.description}}
-          destination: https://github.com/${{parameters.githubOrg}}/${{parameters.namespace}}-rhoai-sklearn-gitops
-          source_repository: https://github.com/${{parameters.githubOrg}}/${{parameters.namespace}}-rhoai-sklearn
+          destination: https://gitlab.com/${{parameters.repo_owner}}/${{parameters.namespace}}-rhoai-sklearn-gitops
+          source_repository: https://gitlab.com/${{parameters.repo_owner}}/${{parameters.namespace}}-rhoai-sklearn
           repository_name: ${{parameters.namespace}}-rhoai-sklearn
-          git_owner: ${{parameters.githubOrg}}
+          git_owner: ${{parameters.repo_owner}}
           cluster: ${{parameters.cluster_id}}
           namespace: ${{parameters.namespace}}
-          image_host: ${{parameters.image_host}}
           image_name: ${{parameters.namespace}}/rhoai-sklearn-dsp
-          image_tag: ${{parameters.image_tag}}
         targetPath: ./tenant-gitops
     - id: publishGitops
       name: Publishing to Deployment Resource Repository
-      action: publish:github
+      action: publish:gitlab
       input:
-        repoUrl: github.com?owner=${{parameters.githubOrg}}&repo=${{parameters.namespace}}-rhoai-sklearn-gitops
+        repoUrl: gitlab.com?owner=${{parameters.repo_owner}}&repo=${{parameters.namespace}}-rhoai-sklearn-gitops
         title: gitops resources for ${{parameters.namespace}}-rhoai-sklearn-dsp
         description: gitops resources for ${{parameters.namespace}}-rhoai-sklearn-dsp
         sourcePath: ./tenant-gitops
@@ -120,7 +111,7 @@ spec:
         appName: ${{parameters.namespace}}-rhoai-sklearn-dsp-bootstrap
         argoInstance: argo-rhdh
         namespace: janus-argocd
-        repoUrl: https://github.com/${{parameters.githubOrg}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
+        repoUrl: https://gitlab.com/${{parameters.repo_owner}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
         path: 'argocd/'
   output:
     links:
