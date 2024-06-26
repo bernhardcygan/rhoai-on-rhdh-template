@@ -109,8 +109,8 @@ spec:
       action: argocd:create-resources
       input:
         appName: ${{parameters.namespace}}-rhoai-sklearn-dsp-bootstrap
-        argoInstance: argocd
-        namespace: janus-argocd
+        argoInstance: main
+        namespace: janus-argocd 
         repoUrl: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
         path: 'argocd/'
   output:
