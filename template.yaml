@@ -46,7 +46,7 @@ spec:
           default: my-dsp
 
   steps:
-    - id: templateSource
+    - id: template-source
       name: Generating the source code component
       action: fetch:template
       input:
@@ -58,7 +58,8 @@ spec:
           cluster_id: ${{parameters.cluster_id}}
           namespace: ${{parameters.namespace}}
           component_id: ${{parameters.namespace}}-rhoai-sklearn-dsp
-    - id: publishSource
+
+    - id: publish-source
       name: Publishing to Source Code Repository
       action: publish:gitlab
       input:
@@ -70,14 +71,16 @@ spec:
         defaultBranch: main
         protectDefaultBranch: false
         repoVisibility: public    
-    - id: registerSource
+
+    - id: register-source
       name: Registering the Source Code Component
       action: catalog:register
       input:
         repoContentsUrl: ${{steps.publishSource.output.repoContentsUrl}}
         catalogInfoPath: /catalog-info.yaml
-    - id: templateGitops
-      name: Generating the deployment resources and artefacts
+
+    - id: template-gitops
+      name: Generating the deployment resources and artifacts
       action: fetch:template
       input:
         url: ./manifests
@@ -93,7 +96,8 @@ spec:
           namespace: ${{parameters.namespace}}
           image_name: ${{parameters.namespace}}/rhoai-sklearn-dsp
         targetPath: ./tenant-gitops
-    - id: publishGitops
+
+    - id: publish-gitops
       name: Publishing to Deployment Resource Repository
       action: publish:gitlab
       input:
@@ -104,6 +108,7 @@ spec:
         defaultBranch: main
         protectDefaultBranch: false
         repoVisibility: public
+
     - id: createArgoResources
       name: Create ArgoCD Resources
       action: argocd:create-resources
@@ -113,6 +118,7 @@ spec:
         namespace: janus-argocd 
         repoUrl: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
         path: 'argocd/'
+
   output:
     links:
       - title: Source Code Repository

@@ -10,8 +10,8 @@ spec:
   project: default
   source:
     repoURL: ${{values.destination}}
-    targetRevision: HEAD
     path: ./helm/ds-project
+    targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: ${{values.namespace}}
