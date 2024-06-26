@@ -85,8 +85,8 @@ spec:
         values:
           component_id: ${{parameters.namespace}}-rhoai-sklearn-dsp
           description: ${{parameters.description}}
-          destination: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn-gitops
-          source_repository: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn
+          destination: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
+          source_repository: https://gitlab-gitlab${{parameters.cluster_id}}/${{parameters.gitlab_group}}/${{parameters.namespace}}-rhoai-sklearn.git
           repository_name: ${{parameters.namespace}}-rhoai-sklearn
           git_owner: ${{parameters.gitlab_group}}
           cluster: ${{parameters.cluster_id}}
