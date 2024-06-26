@@ -76,7 +76,7 @@ spec:
       name: Registering the Source Code Component
       action: catalog:register
       input:
-        repoContentsUrl: ${{steps.publishSource.output.repoContentsUrl}}
+        repoContentsUrl: ${{steps.publish-source.output.repoContentsUrl}}
         catalogInfoPath: /catalog-info.yaml
 
     - id: template-gitops
@@ -122,9 +122,9 @@ spec:
   output:
     links:
       - title: Source Code Repository
-        url: ${{steps.publishSource.output.remoteUrl}}
+        url: ${{steps.publish-source.output.remoteUrl}}
       - title: Pipeline status
         url: https://console-openshift-console${{parameters.cluster_id}}/dev-pipelines/ns/${{parameters.namespace}}/
       - title: Open Component in catalog
         icon: catalog
-        entityRef: ${{steps.registerSource.output.entityRef}}
+        entityRef: ${{steps.register-source.output.entityRef}}
