@@ -13,7 +13,7 @@ spec:
   type: service
 
   parameters: 
-    - title: Provide information about the GitHub location
+    - title: Provide information for GitLab
       required:
         - repo_owner
       properties:
