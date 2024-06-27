@@ -63,9 +63,9 @@ spec:
       name: Publishing to Source Code Repository
       action: publish:gitlab
       input:
-        sourcePath: ./source
         allowedHosts:
           - gitlab.com
+        sourcePath: ./source
         description: ${{parameters.description}}
         repoUrl: gitlab-gitlab${{parameters.clusterId}}?owner=${{parameters.gitlabGroup}}&repo=${{parameters.namespace}}-rhoai-sklearn
         defaultBranch: main
@@ -100,9 +100,11 @@ spec:
       name: Publishing to Deployment Resource Repository
       action: publish:gitlab
       input:
+        allowedHosts:
+          - gitlab.com
         repoUrl: gitlab-gitlab${{parameters.clusterId}}?owner=${{parameters.gitlabGroup}}&repo=${{parameters.namespace}}-rhoai-sklearn-gitops
-        title: gitops resources for ${{parameters.namespace}}-rhoai-sklearn-dsp
-        description: gitops resources for ${{parameters.namespace}}-rhoai-sklearn-dsp
+        title: GitOps resources for ${{parameters.namespace}}-rhoai-sklearn-dsp
+        description: GitOps resources for ${{parameters.namespace}}-rhoai-sklearn-dsp
         sourcePath: ./tenant-gitops
         defaultBranch: main
         protectDefaultBranch: false
