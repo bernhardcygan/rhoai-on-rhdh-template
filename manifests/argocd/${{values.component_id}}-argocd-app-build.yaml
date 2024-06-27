@@ -4,17 +4,27 @@ kind: Application
 metadata:
   name: ${{values.componentId}}-build
   namespace: janus-argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io  
 spec:
   project: default
-  source:
-    repoURL: ${{values.destination}}
-    path: ./helm/ds-project
-    targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: ${{values.namespace}}
+  source:
+    repoURL: ${{values.destination}}
+    path: ./helm/ds-project
+    targetRevision: ${{values.defaultBranch}}
+    # adding those helm values here allows the helm
+    # chart to be somewhere different and it doesn't
+    # have to be deployed in each repo with backstage
+    helm:
+      values: |
+        app:
+          name: ${{values.componentId}}
+          namespace: ${{values.namespace}}
+          cluster: ${{values.cluster}}
+        
+        git:
+          repo: ${{values.source_repository}}
   syncPolicy:
     automated: 
       prune: false

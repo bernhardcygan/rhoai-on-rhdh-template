@@ -79,7 +79,7 @@ spec:
         repoContentsUrl: ${{steps.publishSource.output.repoContentsUrl}}
         catalogInfoPath: /catalog-info.yaml
 
-    - id: templateGitops
+    - id: templateGitOps
       name: Generating the deployment resources and artifacts
       action: fetch:template
       input:
@@ -91,11 +91,12 @@ spec:
           destination: https://gitlab-gitlab${{parameters.clusterId}}/${{parameters.gitlabGroup}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
           source_repository: https://gitlab-gitlab${{parameters.clusterId}}/${{parameters.gitlabGroup}}/${{parameters.namespace}}-rhoai-sklearn.git
           repository_name: ${{parameters.namespace}}-rhoai-sklearn
+          defaultBranch: main
           cluster: ${{parameters.clusterId}}
           namespace: ${{parameters.namespace}}
         targetPath: ./tenant-gitops
 
-    - id: publishGitops
+    - id: publishGitOps
       name: Publishing to Deployment Resource Repository
       action: publish:gitlab
       input:
