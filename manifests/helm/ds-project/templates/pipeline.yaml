@@ -12,25 +12,14 @@ spec:
       type: string
       default: {{ .Values.git.repo }}
   tasks:
-    - name: wait-for-workbench
-      params:
-        - name: SCRIPT
-          value: >-
-            oc wait -l statefulset={{ .Values.app.name }}
-            --for=condition=ready pod --timeout=300s
-        - name: VERSION
-          value: latest
-      taskRef:
-        kind: ClusterTask
-        name: openshift-client
     - name: clone-repo
+      workspaces:
+      - name: output
+        persistentVolumeClaim:
+          claimName: {{ .Values.app.name }}
       params:
-        - name: SCRIPT
-          value: oc exec  StatefulSet/{{ .Values.app.name }} -- git clone $(params.source-repo)
-        - name: VERSION
-          value: latest
-      runAfter:
-        - wait-for-workbench
+        - name: url
+          value: $(params.source-repo)
       taskRef:
         kind: ClusterTask
-        name: openshift-client
+        name: git-clone
