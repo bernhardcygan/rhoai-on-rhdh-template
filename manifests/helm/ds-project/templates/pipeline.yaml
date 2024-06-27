@@ -14,9 +14,8 @@ spec:
   tasks:
     - name: clone-repo
       workspaces:
-      - name: output
-        persistentVolumeClaim:
-          claimName: {{ .Values.app.name }}
+        - name: output
+          workspace: notebook
       params:
         - name: url
           value: $(params.source-repo)

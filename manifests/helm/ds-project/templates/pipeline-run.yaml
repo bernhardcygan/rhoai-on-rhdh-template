@@ -9,6 +9,10 @@ metadata:
     tekton.dev/pipeline: configure-ds-project
     type: pipeline
 spec:
+  workspaces:
+    - name: notebook
+      persistentVolumeClaim:
+        claimName: {{ .Values.app.name }}
   params:
     - name: source-repo
       value: {{ .Values.git.repo }}
