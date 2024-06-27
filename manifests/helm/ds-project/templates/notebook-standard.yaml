@@ -21,7 +21,15 @@ metadata:
 spec:
   template:
     spec:
-      affinity: {}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - ip-10-0-208-74.us-east-2.compute.internal
       containers:
       - env:
         - name: NOTEBOOK_ARGS
