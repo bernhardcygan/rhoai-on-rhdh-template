@@ -24,7 +24,8 @@ spec:
           cluster: ${{values.cluster}}
         
         git:
-          repo: ${{values.source_repository}}
+          branch: ${{values.defaultBranch}}
+          repo: ${{values.sourceRepository}}
   syncPolicy:
     automated: 
       prune: false

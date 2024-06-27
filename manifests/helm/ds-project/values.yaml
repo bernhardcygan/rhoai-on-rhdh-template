@@ -5,5 +5,5 @@ app:
   user: admin
 
 git:
-  branch: main
-  repo: ${{values.source_repository}}
+  branch: ${{values.defaultBranch}}
+  repo: ${{values.sourceRepository}}

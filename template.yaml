@@ -89,7 +89,7 @@ spec:
           componentId: ${{parameters.namespace}}-rhoai-sklearn-dsp
           description: ${{parameters.description}}
           destination: https://gitlab-gitlab${{parameters.clusterId}}/${{parameters.gitlabGroup}}/${{parameters.namespace}}-rhoai-sklearn-gitops.git
-          source_repository: https://gitlab-gitlab${{parameters.clusterId}}/${{parameters.gitlabGroup}}/${{parameters.namespace}}-rhoai-sklearn.git
+          sourceRepository: https://gitlab-gitlab${{parameters.clusterId}}/${{parameters.gitlabGroup}}/${{parameters.namespace}}-rhoai-sklearn.git
           repository_name: ${{parameters.namespace}}-rhoai-sklearn
           defaultBranch: main
           cluster: ${{parameters.clusterId}}
