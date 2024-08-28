@@ -38,7 +38,7 @@ spec:
           title: Cluster Id
           type: string
           description: Id of the cluster
-          default: .apps.cluster-kpxpg.sandbox1408.opentlc.com
+          default: .apps.cluster-czv4r.czv4r.sandbox1517.opentlc.com
         namespace: 
           title: Namespace
           type: string
